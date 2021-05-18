@@ -1,0 +1,51 @@
+<div class="panel deep-purple"></div>
+<main class="main">
+  <div class="container">
+    <div class="row">
+        <mat-card class="col-md-12" *ngIf="formEnitityMeta">
+          <mat-card-header>
+            <div class="col-12">
+              <h3><mat-label>{{formEnitityMeta.label}}</mat-label> : {{formEnitityMeta.name}}
+                <span>
+                  <button class="save-btn" mat-raised-button color="primary" (click)="save()">Save</button></span></h3>
+             </div>
+          </mat-card-header>
+           <mat-card-content>
+             <div class="col-12">
+               <ng-container *ngFor="let field of formEnitityMeta.field">
+                <div class="col-4 d-inline-block" *ngIf="!field.system">
+                  <mat-form-field appearance="fill" *ngIf="field.dataType === 'String' ">
+                    <mat-label>{{field.label}}</mat-label>
+                    <input matInput placeholder="" [maxlength]="field.length" [(ngModel)]="formEnitityData[field.name]">
+                  </mat-form-field>
+                  <mat-form-field appearance="fill" *ngIf="field.dataType === 'lookup' ">
+                    <mat-label>{{field.label}}</mat-label>
+                    <mat-select [(ngModel)]="formEnitityData[field.name]">
+                      <mat-option *ngFor="let options of field.lookup.link" [value]="
+                      options.href"> {{options.rel}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field appearance="fill" *ngIf="field.dataType === 'Integer' ">
+                    <mat-label>{{field.label}}</mat-label>
+                    <input matInput appNumeric type="text" [maxlength]="field.length" placeholder="" [(ngModel)]="formEnitityData[field.name]">
+                  </mat-form-field>
+                  <mat-form-field appearance="fill" *ngIf="field.dataType === 'Decimal' ">
+                    <mat-label>{{field.label}}</mat-label>
+                    <input matInput appDecimal [totalLength]="field.totalDigits"
+                    [fractionDigits]="field.fractionDigits" allowedChars="." placeholder=""  [(ngModel)]="formEnitityData[field.name]">
+                  </mat-form-field>
+                  <mat-form-field appearance="fill" *ngIf="field.dataType === 'Date' ">
+                      <mat-label>{{field.label}}</mat-label>
+                      <input matInput [matDatepicker]="picker"
+                      [(ngModel)]="formEnitityData[field.name]">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+               </ng-container>
+             </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+  </div>
+</main>
